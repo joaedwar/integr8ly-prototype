@@ -2,6 +2,7 @@
 
 exports[`Masthead Component should render a basic component: basic 1`] = `
 <Masthead
+  history={Object {}}
   logoutUser={[Function]}
   user={
     Object {
@@ -108,7 +109,6 @@ exports[`Masthead Component should render mobile navigation: mobile-nav 1`] = `
       className="list-group-item"
     >
       <a
-        className="hidden"
         href="#help"
         onClick={[Function]}
         role="menuitem"

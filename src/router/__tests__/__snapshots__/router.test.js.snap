@@ -11,6 +11,12 @@ exports[`Router Component should render a basic component 1`] = `
       key="/home"
       path="/home"
     />
+    <Route
+      component={[Function]}
+      exact={true}
+      key="/help"
+      path="/help"
+    />
     <Redirect
       from="/"
       push={false}

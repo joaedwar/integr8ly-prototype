@@ -10,7 +10,7 @@ exports[`HomePage Component should render the home page component 1`] = `
     className="page-header"
   >
     <h2>
-      Welcome to PatternFly React Product Demo App!
+      greeting
     </h2>
   </div>
   <div
@@ -46,6 +46,7 @@ exports[`HomePage Component should render the home page component 1`] = `
       </code>
        and save to reload.
     </p>
+    <hr />
   </div>
 </Grid>
 `;

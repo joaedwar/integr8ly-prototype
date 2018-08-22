@@ -1,4 +1,5 @@
 import HomePage from './pages/home/home';
+import HelpPage from './pages/help/help';
 
 /**
  * Return the application base directory.
@@ -17,6 +18,13 @@ const routes = () => [
     to: '/home',
     redirect: true,
     component: HomePage,
+    exact: true
+  },
+  {
+    iconClass: 'pficon pficon-orders',
+    title: 'Help',
+    to: '/help',
+    component: HelpPage,
     exact: true
   }
 ];

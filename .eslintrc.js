@@ -5,6 +5,8 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
-    'import/no-named-as-default': 'off'
+    'import/no-named-as-default': 'off',
+    'import/no-dynamic-require': 'off',
+    'global-require': 'off'
   }
 };

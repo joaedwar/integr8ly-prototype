@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop, Icon, Masthead as PfMasthead, MenuItem } from 'patternfly-react';
+import { withRouter } from 'react-router-dom';
 import { connect, reduxActions, store } from '../../redux';
 import iconImg from '../../img/logo-alt.svg';
 import titleImg from '../../img/brand-alt.svg';
@@ -20,6 +21,7 @@ class Masthead extends React.Component {
 
   onHelp = e => {
     e.preventDefault();
+    this.props.history.push('/help');
   };
 
   onLogoutUser = e => {
@@ -55,7 +57,7 @@ class Masthead extends React.Component {
             </a>
           </li>
           <li className="list-group-item">
-            <a role="menuitem" href="#help" onClick={this.onHelp} className="hidden">
+            <a role="menuitem" href="#help" onClick={this.onHelp}>
               <span className="list-group-item-value">Help</span>
             </a>
           </li>
@@ -124,12 +126,14 @@ Masthead.propTypes = {
   logoutUser: PropTypes.func,
   user: PropTypes.shape({
     username: PropTypes.string
-  })
+  }),
+  history: PropTypes.object
 };
 
 Masthead.defaultProps = {
   logoutUser: noop,
-  user: {}
+  user: {},
+  history: {}
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -145,4 +149,6 @@ const ConnectedMasthead = connect(
   mapDispatchToProps
 )(Masthead);
 
-export { ConnectedMasthead as default, ConnectedMasthead, Masthead };
+const RoutedConnectedMasthead = withRouter(ConnectedMasthead);
+
+export { RoutedConnectedMasthead as default, ConnectedMasthead, Masthead };
