@@ -2,19 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class InstalledAppsView extends React.Component {
-  state = {
-    currentApp: undefined
-  };
-
-  constructor(props) {
-    super(props);
-    this.state.currentApp = 0;
-    this.handleAppNameClicked = this.handleAppNameClicked.bind(this);
-  }
-
-  handleAppNameClicked(e) {
-    this.setState({ currentApp: e.target.value });
-  }
   static createMasterList(apps) {
     const masterList = apps.map((app, index) => (
       <li onClick={() => window.open(app.appLink, '_blank')} key={`${app.appName}_${index}`} value={index}>
