@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { noop, Alert, Button, ButtonGroup, Grid, Icon, ProgressBar } from 'patternfly-react';
+import { noop, Alert, Button, ButtonGroup, Checkbox, Grid, Icon, ProgressBar } from 'patternfly-react';
 import { connect, reduxActions } from '../../../redux';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import AsciiDocTemplate from '../../../components/asciiDocTemplate/asciiDocTemplate';
 
 class TaskPage extends React.Component {
-  state = { task: 0 };
+  state = { task: 0, totalVerified: 0 };
 
   componentDidMount() {
     this.loadThread();
@@ -39,6 +39,8 @@ class TaskPage extends React.Component {
     if (!Number.isNaN(id)) {
       getThread(i18n.language, id);
       const parsedTask = parseInt(task, 10);
+      const totalVerified = 0;
+      console.log(parsedTask);
       this.setState({ id, task: parsedTask });
     }
   }
@@ -89,17 +91,27 @@ class TaskPage extends React.Component {
                     <ProgressBar className="progress progress-sm" now={progess} />
                   </div>
                   <div className="integr8ly-module-column--steps">
-                    <AsciiDocTemplate adoc={threadTask.stepDoc} attributes={threadTask.attributes || {}} />
-                    {threadTask.stepDocInfo && (
-                      <Alert type="info">
-                        <AsciiDocTemplate adoc={threadTask.stepDocInfo} />
-                      </Alert>
-                    )}
-                    {threadTask.stepDocSuccess && (
-                      <Alert type="success">
-                        <AsciiDocTemplate adoc={threadTask.stepDocSuccess} />
-                      </Alert>
-                    )}
+                    {threadTask.steps.map((step, i) => (
+                      <React.Fragment key={i}>
+                        <AsciiDocTemplate adoc={step.stepDoc} attributes={step.attributes || {}} />
+                        {step.infoVerifications &&
+                          step.infoVerifications.map((verification, j) => (
+                            <Alert type="info" key={j}>
+                              <strong>Verification</strong>
+                              <Checkbox>
+                                <AsciiDocTemplate adoc={verification} attributes={step.attributes || {}} />
+                              </Checkbox>
+                            </Alert>
+                          ))}
+                        {step.successVerifications &&
+                          step.successVerifications.map((verification, k) => (
+                            <Alert type="success" key={k}>
+                              <strong>Verification</strong>
+                              <AsciiDocTemplate adoc={verification} attributes={step.attributes || {}} />
+                            </Alert>
+                          ))}
+                      </React.Fragment>
+                    ))}
                   </div>
                   <div className="integr8ly-module-column--footer">
                     <h4>{t('task.whatsNext')}</h4>

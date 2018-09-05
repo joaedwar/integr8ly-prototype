@@ -1,0 +1,1 @@
+Check the *Connections* screen of the link:{fuse-online-url}[Red Hat Fuse Online console, window="_blank"] to make sure the new connection exists.
