@@ -8,7 +8,7 @@ import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import AsciiDocTemplate from '../../../components/asciiDocTemplate/asciiDocTemplate';
 
 class TaskPage extends React.Component {
-  state = { task: 0, totalVerified: 0 };
+  state = { task: -1, verifications: {}, verificationsChecked: false };
 
   componentDidMount() {
     this.loadThread();
@@ -37,11 +37,21 @@ class TaskPage extends React.Component {
       getThread
     } = this.props;
     if (!Number.isNaN(id)) {
-      getThread(i18n.language, id);
       const parsedTask = parseInt(task, 10);
-      const totalVerified = 0;
-      console.log(parsedTask);
       this.setState({ id, task: parsedTask });
+      getThread(i18n.language, id).then(thread => {
+        const verifications = {};
+        const task = thread.value.data.tasks[parsedTask];
+        task.steps.forEach(step => {
+          if (step.infoVerifications) {
+            step.infoVerifications.forEach(verification => {
+              verifications[verification] = false;
+            });
+          }
+        });
+        const hasVerifications = Object.keys(verifications).length > 0;
+        this.setState({ verifications, verificationsChecked: !hasVerifications });
+      });
     }
   }
 
@@ -58,9 +68,16 @@ class TaskPage extends React.Component {
     history.push(`/`);
   };
 
+  handleVerificationChanged = (e, verification) => {
+    const o = Object.assign({}, this.state.verifications);
+    o[verification] = !!e.target.checked;
+    const verificationsChecked = Object.values(o).every(v => v === true);
+    this.setState({ verifications: o, verificationsChecked });
+  };
+
   render() {
     const { t, thread } = this.props;
-    const { task } = this.state;
+    const { task, verifications, verificationsChecked } = this.state;
     if (thread.pending) {
       // todo: loading state
       return null;
@@ -98,7 +115,12 @@ class TaskPage extends React.Component {
                           step.infoVerifications.map((verification, j) => (
                             <Alert type="info" key={j}>
                               <strong>Verification</strong>
-                              <Checkbox>
+                              <Checkbox
+                                checked={verifications[verification] || false}
+                                onChange={e => {
+                                  this.handleVerificationChanged(e, verification);
+                                }}
+                              >
                                 <AsciiDocTemplate adoc={verification} attributes={step.attributes || {}} />
                               </Checkbox>
                             </Alert>
@@ -131,7 +153,11 @@ class TaskPage extends React.Component {
                       )}
                       {task + 1 < totalTasks && (
                         <ButtonGroup>
-                          <Button onClick={e => this.goToTask(e, task + 1)}>
+                          <Button
+                            bsStyle="primary"
+                            onClick={e => this.goToTask(e, task + 1)}
+                            disabled={!verificationsChecked}
+                          >
                             {t('task.nextTask')} <Icon type="fa" name="angle-right" style={{ paddingLeft: 5 }} />
                           </Button>
                         </ButtonGroup>
