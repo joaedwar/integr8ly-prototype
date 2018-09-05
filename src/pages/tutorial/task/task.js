@@ -8,7 +8,7 @@ import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import AsciiDocTemplate from '../../../components/asciiDocTemplate/asciiDocTemplate';
 
 class TaskPage extends React.Component {
-  state = { task: -1, verifications: {}, verificationsChecked: false };
+  state = { task: 0, verifications: {}, verificationsChecked: false };
 
   componentDidMount() {
     this.loadThread();
@@ -154,9 +154,8 @@ class TaskPage extends React.Component {
                       {task + 1 < totalTasks && (
                         <ButtonGroup>
                           <Button
-                            bsStyle="primary"
+                            bsStyle={verificationsChecked ? 'primary' : 'default'}
                             onClick={e => this.goToTask(e, task + 1)}
-                            disabled={!verificationsChecked}
                           >
                             {t('task.nextTask')} <Icon type="fa" name="angle-right" style={{ paddingLeft: 5 }} />
                           </Button>
