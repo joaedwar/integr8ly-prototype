@@ -28,6 +28,12 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.9.4",
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.8",
+    "@types/react-router-dom": "^4.3.0",
     "babel-eslint": "^8.2.6",
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
@@ -44,8 +50,11 @@
     "npm-run-all": "^4.1.3",
     "prettier": "^1.14.2",
     "react-scripts": "1.1.4",
+    "react-scripts-ts": "^2.17.0",
     "redux-mock-store": "^1.5.3",
-    "source-map-explorer": "^1.5.0"
+    "source-map-explorer": "^1.5.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   },
   "resolutions": {
     "**/jest": "23.5.0"
@@ -54,16 +63,16 @@
     "api:dev": "sh ./scripts/dev.sh -p 5000 -d \"$(pwd)/src/services\"",
     "build:css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/styles/index.scss -o src/styles/.css",
     "watch:css": "yarn build:css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/styles/index.scss -o src/styles/.css --watch --recursive",
-    "build:js": "CI=false react-scripts build",
+    "build:js": "CI=false react-scripts-ts build",
     "start": "NODE_ENV=production PORT=8080 node server.js",
     "start:dev": "FUSE_URL=http://localhost:3006 LAUNCHER_URL=http://localhost:3006 ENMASSE_URL=http://localhost:3006 CHE_URL=http://localhost:3006 OPENSHIFT_OAUTHCLIENT_ID=\"tutorial-web-app\" run-p -l watch:css start:local api:dev start:server",
-    "start:local": "react-scripts start",
+    "start:local": "react-scripts-ts start",
     "start:server": "nodemon server.js",
     "commit:hash": "echo REACT_APP_UI_COMMIT_HASH=$(git rev-list -1 --all) > .env",
     "build": "yarn commit:hash && yarn build:css && yarn build:js && yarn postbuild",
-    "test": "yarn lint && react-scripts test --env=jsdom --coverage",
-    "test:watch": "react-scripts test --env=jsdom --watch",
-    "eject": "react-scripts eject",
+    "test": "yarn lint && react-scripts-ts test --env=jsdom --coverage",
+    "test:watch": "react-scripts-ts test --env=jsdom --watch",
+    "eject": "react-scripts-ts eject",
     "prettier": "prettier --write --single-quote --trailing-comma=none \"src/**/*.js\"",
     "analyze": "source-map-explorer build/static/js/main.*",
     "lint": "yarn lint:js",
